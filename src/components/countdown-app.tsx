@@ -1,58 +1,87 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { DateTime } from "luxon"
-import CountdownTimer from "./countdown-timer"
-import CityGrid from "./city-grid"
-import DateTimeDrawer from "./date-time-drawer"
-import EventTimeline, { eventDates, type EventDate } from "./event-timeline"
-import { Button } from "@/components/ui/button"
-import { PlusCircle } from "lucide-react"
+import { useState, useEffect } from "react";
+import { DateTime } from "luxon";
+import { motion } from "framer-motion";
+import CountdownTimer from "./countdown-timer";
+import CityGrid from "./city-grid";
+import DateTimeDrawer from "./date-time-drawer";
+import EventTimeline, { eventDates, type EventDate } from "./event-timeline";
+import { Button } from "@/components/ui/button";
+import { PlusCircle } from "lucide-react";
 
 export default function CountdownApp() {
-  const [targetDate, setTargetDate] = useState<DateTime | null>(null)
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-  const [selectedEvent, setSelectedEvent] = useState<EventDate | null>(null)
+  const [targetDate, setTargetDate] = useState<DateTime | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<EventDate | null>(null);
 
   // Find the next upcoming event on initial load
   useEffect(() => {
-    const now = DateTime.now()
-    const upcomingEvents = eventDates.filter((event) => event.date > now)
+    const now = DateTime.now();
+    const upcomingEvents = eventDates.filter((event) => event.date > now);
 
     if (upcomingEvents.length > 0) {
       // Sort by date and get the closest upcoming event
-      const nextEvent = upcomingEvents.sort((a, b) => a.date.toMillis() - b.date.toMillis())[0]
-      setSelectedEvent(nextEvent)
-      setTargetDate(nextEvent.date)
+      const nextEvent = upcomingEvents.sort(
+        (a, b) => a.date.toMillis() - b.date.toMillis()
+      )[0];
+      setSelectedEvent(nextEvent);
+      setTargetDate(nextEvent.date);
     } else {
       // If all events have passed, set a default date
-      setTargetDate(DateTime.now().plus({ days: 1 }))
+      setTargetDate(DateTime.now().plus({ days: 1 }));
     }
-  }, [])
+  }, []);
 
   const handleDateSubmit = (date: DateTime) => {
-    setTargetDate(date)
-    setSelectedEvent(null) // Clear selected event when custom date is set
-    setIsDrawerOpen(false)
-  }
+    setTargetDate(date);
+    setSelectedEvent(null); // Clear selected event when custom date is set
+    setIsDrawerOpen(false);
+  };
 
   const handleEventSelect = (event: EventDate) => {
-    setSelectedEvent(event)
-    setTargetDate(event.date)
-  }
+    setSelectedEvent(event);
+    setTargetDate(event.date);
+  };
 
   return (
     <div className="relative">
       <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-gradient-radial from-[#0e1f33] to-black opacity-70 blur-xl -z-10"></div>
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-[#f5f5dc] to-[#e8d8c3] text-transparent bg-clip-text drop-shadow-md">
-            BOLT HACKATHON COUNTDOWN
-          </h1>
-          <p className="text-[#e8d8c3] opacity-80">Track your deadline across the world</p>
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-5xl font-bold mb-4"
+          >
+            <a
+              href="https://hackathon.dev/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative inline-block"
+            >
+              <span className="relative inline-block bg-gradient-to-r from-[#ffffff] to-[#e8d8c3] group-hover:text-[#f5f5dc] text-transparent bg-clip-text">
+                BOLT HACKATHON
+                <span className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-[#ffffff] to-[#e8d8c3] group-hover:w-full transition-all duration-300"></span>
+              </span>
+              <span className="text-[#e8d8c3]"> COUNTDOWN</span>
+            </a>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.8 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-[#e8d8c3]"
+          >
+            Track your deadline across the world
+          </motion.p>
         </header>
 
-        <EventTimeline onSelectEvent={handleEventSelect} selectedEventId={selectedEvent?.id || null} />
+        <EventTimeline
+          onSelectEvent={handleEventSelect}
+          selectedEventId={selectedEvent?.id || null}
+        />
 
         <div className="mt-16">
           {targetDate && (
@@ -60,15 +89,21 @@ export default function CountdownApp() {
               <div className="text-center mb-6">
                 {selectedEvent ? (
                   <div className="inline-block px-6 py-2 bg-[#e8d8c3]/10 rounded-full">
-                    <span className="text-[#f5f5dc] font-medium">Countdown to: </span>
-                    <span className="text-[#f5f5dc] font-bold">{selectedEvent.title}</span>
+                    <span className="text-[#f5f5dc] font-medium">
+                      Countdown to:{" "}
+                    </span>
+                    <span className="text-[#f5f5dc] font-bold">
+                      {selectedEvent.title}
+                    </span>
                     <span className="text-[#e8d8c3]/80 ml-2 text-sm">
                       ({selectedEvent.month} {selectedEvent.day})
                     </span>
                   </div>
                 ) : (
                   <div className="inline-block px-6 py-2 bg-[#e8d8c3]/10 rounded-full">
-                    <span className="text-[#f5f5dc] font-medium">Custom Countdown</span>
+                    <span className="text-[#f5f5dc] font-medium">
+                      Custom Countdown
+                    </span>
                   </div>
                 )}
               </div>
@@ -94,5 +129,5 @@ export default function CountdownApp() {
         />
       </div>
     </div>
-  )
+  );
 }
