@@ -1,6 +1,7 @@
 # Bolt Hackathon Project (Work in Progress)
 
 This is a work-in-progress project built with Vite.js and React for the Bolt Hackathon.
+🌐 [Live Demo](https://bolt-hackathon-countdown.netlify.app/)
 
 ## Features (In Development)
 
