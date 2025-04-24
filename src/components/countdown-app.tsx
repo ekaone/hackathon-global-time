@@ -9,6 +9,7 @@ import DateTimeDrawer from "./date-time-drawer";
 import EventTimeline, { eventDates, type EventDate } from "./event-timeline";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
+import Footer from "./footer";
 
 export default function CountdownApp() {
   const [targetDate, setTargetDate] = useState<DateTime | null>(null);
@@ -128,6 +129,7 @@ export default function CountdownApp() {
           initialDate={targetDate}
         />
       </div>
+      <Footer />
     </div>
   );
 }
