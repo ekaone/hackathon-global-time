@@ -102,8 +102,8 @@ export default function CountdownTimer({ targetDate }: CountdownTimerProps) {
             </div>
           </div>
           <div className="mt-6 text-sm text-[#e8d8c3] opacity-70">
-            Target: {targetDate.toFormat("MMMM dd, yyyy HH:mm:ss")} UTC
-            {targetDate.toFormat("Z")}
+            Target: {targetDate.toFormat("MMMM dd, yyyy HH:mm:ss")}{" "}
+            {targetDate.toFormat("ZZZZ")}
           </div>
         </>
       )}
