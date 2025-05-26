@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { DateTime } from "luxon"
-import { motion, AnimatePresence } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
+import { useState } from "react";
+import { DateTime } from "luxon";
+import { motion, AnimatePresence } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
 
 export interface EventDate {
-  id: string
-  month: string
-  day: string
-  title: string
-  description: string
-  date: DateTime
+  id: string;
+  month: string;
+  day: string;
+  title: string;
+  description: string;
+  date: DateTime;
 }
 
 // Define the events with San Francisco local time
@@ -22,7 +22,10 @@ export const eventDates: EventDate[] = [
     day: "07",
     title: "Kickoff Party",
     description: "Location, San Francisco",
-    date: DateTime.fromObject({ year: 2025, month: 5, day: 7, hour: 18 }, { zone: "America/Los_Angeles" }),
+    date: DateTime.fromObject(
+      { year: 2025, month: 5, day: 7, hour: 18 },
+      { zone: "America/Los_Angeles" }
+    ),
   },
   {
     id: "begins",
@@ -30,7 +33,10 @@ export const eventDates: EventDate[] = [
     day: "30",
     title: "Hackathon Begins",
     description: "Hybrid, Worldwide",
-    date: DateTime.fromObject({ year: 2025, month: 5, day: 30, hour: 9 }, { zone: "America/Los_Angeles" }),
+    date: DateTime.fromObject(
+      { year: 2025, month: 5, day: 30, hour: 9 },
+      { zone: "America/Los_Angeles" }
+    ),
   },
   {
     id: "ends",
@@ -38,7 +44,10 @@ export const eventDates: EventDate[] = [
     day: "30",
     title: "Hackathon Ends",
     description: "Hybrid, Worldwide",
-    date: DateTime.fromObject({ year: 2025, month: 6, day: 30, hour: 23, minute: 59 }, { zone: "America/Los_Angeles" }),
+    date: DateTime.fromObject(
+      { year: 2025, month: 6, day: 30, hour: 23, minute: 59 },
+      { zone: "America/Los_Angeles" }
+    ),
   },
   {
     id: "awards",
@@ -46,9 +55,12 @@ export const eventDates: EventDate[] = [
     day: "26",
     title: "Award Ceremony",
     description: "Hybrid, Worldwide",
-    date: DateTime.fromObject({ year: 2025, month: 7, day: 26, hour: 16 }, { zone: "America/Los_Angeles" }),
+    date: DateTime.fromObject(
+      { year: 2025, month: 7, day: 26, hour: 16 },
+      { zone: "America/Los_Angeles" }
+    ),
   },
-]
+];
 
 // Major cities for global time display
 const majorCities = [
@@ -60,20 +72,23 @@ const majorCities = [
   { name: "Tokyo", timezone: "Asia/Tokyo" },
   { name: "Sydney", timezone: "Australia/Sydney" },
   { name: "Auckland", timezone: "Pacific/Auckland" },
-]
+];
 
 interface EventTimelineProps {
-  onSelectEvent: (event: EventDate) => void
-  selectedEventId: string | null
+  onSelectEvent: (event: EventDate) => void;
+  selectedEventId: string | null;
 }
 
-export default function EventTimeline({ onSelectEvent, selectedEventId }: EventTimelineProps) {
-  const [showGlobalTimes, setShowGlobalTimes] = useState<boolean>(false)
+export default function EventTimeline({
+  onSelectEvent,
+  selectedEventId,
+}: EventTimelineProps) {
+  const [showGlobalTimes, setShowGlobalTimes] = useState<boolean>(false);
 
   const handleEventClick = (event: EventDate) => {
-    onSelectEvent(event)
-    setShowGlobalTimes(selectedEventId === event.id ? !showGlobalTimes : true)
-  }
+    onSelectEvent(event);
+    setShowGlobalTimes(selectedEventId === event.id ? !showGlobalTimes : true);
+  };
 
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-8">
@@ -88,7 +103,11 @@ export default function EventTimeline({ onSelectEvent, selectedEventId }: EventT
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => handleEventClick(event)}
-            className={`cursor-pointer ${selectedEventId === event.id ? "ring-2 ring-[#f5f5dc]/50 ring-offset-2 ring-offset-black" : ""}`}
+            className={`cursor-pointer ${
+              selectedEventId === event.id
+                ? "ring-2 ring-[#f5f5dc]/50 rounded-md ring-offset-2 ring-offset-black"
+                : ""
+            }`}
           >
             <div className="rounded-lg overflow-hidden bg-black border border-[#e8d8c3]/20 hover:border-[#e8d8c3]/40 transition-all shadow-lg hover:shadow-[#e8d8c3]/10">
               <div className="bg-[#e8d8c3]/10 py-1 px-4 text-center text-[#f5f5dc] text-sm font-medium">
@@ -98,8 +117,12 @@ export default function EventTimeline({ onSelectEvent, selectedEventId }: EventT
                 <div className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-b from-[#f5f5dc] to-[#e8d8c3] text-transparent bg-clip-text">
                   {event.day}
                 </div>
-                <div className="text-[#f5f5dc] font-bold mb-1">{event.title}</div>
-                <div className="text-[#e8d8c3]/70 text-sm">{event.description}</div>
+                <div className="text-[#f5f5dc] font-bold mb-1">
+                  {event.title}
+                </div>
+                <div className="text-[#e8d8c3]/70 text-sm">
+                  {event.description}
+                </div>
               </div>
             </div>
           </motion.div>
@@ -117,24 +140,38 @@ export default function EventTimeline({ onSelectEvent, selectedEventId }: EventT
           >
             <div className="border border-[#e8d8c3]/20 rounded-lg p-6 bg-black/50 backdrop-blur-sm">
               <h3 className="text-xl font-bold mb-4 text-[#f5f5dc]">
-                {eventDates.find((e) => e.id === selectedEventId)?.title} - Global Times
+                {eventDates.find((e) => e.id === selectedEventId)?.title} -
+                Global Times
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                 {majorCities.map((city) => {
-                  const event = eventDates.find((e) => e.id === selectedEventId)
-                  if (!event) return null
+                  const event = eventDates.find(
+                    (e) => e.id === selectedEventId
+                  );
+                  if (!event) return null;
 
-                  const localTime = event.date.setZone(city.timezone)
+                  const localTime = event.date.setZone(city.timezone);
                   return (
-                    <Card key={city.name} className="bg-black border-[#e8d8c3]/20">
+                    <Card
+                      key={city.name}
+                      className="bg-black border-[#e8d8c3]/20"
+                    >
                       <CardContent className="p-4">
-                        <div className="font-bold text-[#f5f5dc] mb-1">{city.name}</div>
-                        <div className="text-[#e8d8c3]/80 text-sm">{localTime.toFormat("ccc, MMM d")}</div>
-                        <div className="text-[#f5f5dc] text-lg font-mono">{localTime.toFormat("HH:mm")}</div>
-                        <div className="text-[#e8d8c3]/60 text-xs">{localTime.toFormat("ZZZZ")}</div>
+                        <div className="font-bold text-[#f5f5dc] mb-1">
+                          {city.name}
+                        </div>
+                        <div className="text-[#e8d8c3]/80 text-sm">
+                          {localTime.toFormat("ccc, MMM d")}
+                        </div>
+                        <div className="text-[#f5f5dc] text-lg font-mono">
+                          {localTime.toFormat("HH:mm")}
+                        </div>
+                        <div className="text-[#e8d8c3]/60 text-xs">
+                          {localTime.toFormat("ZZZZ")}
+                        </div>
                       </CardContent>
                     </Card>
-                  )
+                  );
                 })}
               </div>
             </div>
@@ -142,5 +179,5 @@ export default function EventTimeline({ onSelectEvent, selectedEventId }: EventT
         )}
       </AnimatePresence>
     </div>
-  )
+  );
 }
